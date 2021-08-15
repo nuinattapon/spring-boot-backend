@@ -1,6 +1,7 @@
 package me.nattapon.backend.api;
 
 import me.nattapon.backend.business.ProductBusiness;
+import me.nattapon.backend.entity.Product;
 import me.nattapon.backend.exception.BaseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +16,26 @@ public class ProductApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getProductById(@PathVariable("id") String id) throws BaseException {
-        String response = business.getProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable("id") String id) throws BaseException {
+        Product response = business.getProductById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<String> getProductByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
-        String response = business.getProductById(id);
+    public ResponseEntity<Product> getProductByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
+        Product response = business.getProductById(id);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping
+    public ResponseEntity<Product> create(@RequestBody Product product) throws BaseException {
+        Product entity = business.create(product);
+        return ResponseEntity.ok(entity);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") String id) throws BaseException {
+        business.deleteById(id);
+        return ResponseEntity.ok(id);
+    }
 }
-
-

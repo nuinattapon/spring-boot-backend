@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hello")
 public class HelloApi {
     @GetMapping
-    public ResponseEntity<String> hello(@RequestParam(name = "name", defaultValue = "Nattapon") String name) {
-        return ResponseEntity.ok("Hello," + name);
+    public ResponseEntity<String> hello(@RequestParam(name = "name", defaultValue = "World") String name) {
+        return ResponseEntity.ok("Hello, " + name + "!");
     }
 }

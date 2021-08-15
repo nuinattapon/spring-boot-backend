@@ -19,3 +19,6 @@ spring:
 #    username: mysql
 #    password: syspass
 
+logging:
+  level:
+    org.springframework: INFO

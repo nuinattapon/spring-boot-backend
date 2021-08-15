@@ -49,7 +49,7 @@ class TestProductService {
 
 	@Order(3)
 	@Test
-	void testDelete() {
+	void testDelete() throws BaseException{
 		Optional<Product> opt = service.findByName(TestUpdateData.name);
 		Assertions.assertTrue(opt.isPresent());
 

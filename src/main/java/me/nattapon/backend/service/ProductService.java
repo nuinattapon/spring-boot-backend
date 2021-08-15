@@ -35,7 +35,11 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) throws BaseException {
+        Optional<Product> opt = repository.findById(id);
+        if(opt.isEmpty()) {
+            throw ProductException.idNotFound();
+        }
         repository.deleteById(id);
     }
 
@@ -59,5 +63,9 @@ public class ProductService {
         entity.setName(name);
         entity.setPrice(price);
         return repository.save(entity);
+    }
+
+    public Product getProductById(String id) {
+        return repository.getProductById(id);
     }
 }
