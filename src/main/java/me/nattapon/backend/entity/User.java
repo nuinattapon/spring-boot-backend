@@ -11,12 +11,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 //@EqualsAndHashCode(callSuper = true)
+@Entity
 @Getter
 @Setter
-@Entity(name="m_user")
+@Table(name = "m_user", uniqueConstraints = {@UniqueConstraint(name="email_unique",columnNames = {"email"})})
 public class User extends BaseEntity {
 
-    @Column(nullable = false, unique = true, length = 120)
+    @Column(nullable = false, length = 120)
     private String email;
 
     @JsonIgnore
@@ -26,18 +27,24 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 120)
     private String name;
 
-    private String civilId;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User entity = (User) o;
-        return Objects.equals(getId(), entity.getId());
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(email, password, name);
     }
 }

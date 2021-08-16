@@ -1,36 +1,38 @@
 package me.nattapon.backend.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Objects;
 
 
-@Entity(name="product")
+@Entity
+@Getter
+@Setter
+@Table(name = "m_product", uniqueConstraints = {@UniqueConstraint(name="name_unique",columnNames = {"name"})})
 public class Product extends BaseEntity {
 
-    public Product() {
-    }
-
-    @Column(nullable = false, unique = true, length = 120)
+    @Column(nullable = false, length = 120)
     private String name;
 
     @Column(nullable = false)
     private double price;
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Double.compare(product.price, price) == 0 && Objects.equals(name, product.name);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price);
     }
 
     @Override
@@ -39,19 +41,5 @@ public class Product extends BaseEntity {
                 "name='" + name + '\'' +
                 ", price=" + price +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 && name.equals(product.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), name, price);
     }
 }

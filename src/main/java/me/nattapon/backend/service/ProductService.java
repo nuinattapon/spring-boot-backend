@@ -46,7 +46,7 @@ public class ProductService {
     public Product create(String name, Double price) throws BaseException {
         // Validate
         if(name == null) {
-            // throw error email null\
+            // throw error email null
             throw ProductException.createNameNull();
         }
         if(price == 0) {
