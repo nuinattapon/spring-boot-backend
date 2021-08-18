@@ -50,15 +50,15 @@ public class UserService {
 
     public User create(String email, String password, String name) throws BaseException {
         // Validate
-        if(Objects.isNull(email)) {
+        if(email==null) {
             // throw error email null\
             throw UserException.createEmailNull();
         }
-        if(Objects.isNull(password)) {
+        if(password==null) {
             // throw error password null
             throw UserException.createPasswordNull();
         }
-        if(Objects.isNull(name)) {
+        if(name==null) {
             // throw error name null
             throw UserException.createNameNull();
         }
@@ -73,6 +73,7 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(password));
         entity.setName(name);
         entity.setEmail(email);
+        entity.setRole("USER");
         return repository.save(entity);
     }
 }

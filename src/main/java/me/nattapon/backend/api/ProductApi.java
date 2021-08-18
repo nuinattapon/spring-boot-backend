@@ -6,8 +6,10 @@ import me.nattapon.backend.exception.BaseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductApi {
 
     private final ProductBusiness business;
@@ -20,12 +22,16 @@ public class ProductApi {
         Product response = business.getProductById(id);
         return ResponseEntity.ok(response);
     }
-
     @GetMapping
-    public ResponseEntity<Product> getProductByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
-        Product response = business.getProductById(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<Product>> getAll() throws BaseException {
+        return ResponseEntity.ok(business.findAll());
     }
+
+//    @GetMapping
+//    public ResponseEntity<Product> getProductByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
+//        Product response = business.getProductById(id);
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) throws BaseException {
@@ -35,6 +41,12 @@ public class ProductApi {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") String id) throws BaseException {
+        business.deleteById(id);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String>  deleteByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
         business.deleteById(id);
         return ResponseEntity.ok(id);
     }

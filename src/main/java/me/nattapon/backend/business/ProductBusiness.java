@@ -6,6 +6,7 @@ import me.nattapon.backend.exception.ProductException;
 import me.nattapon.backend.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -18,11 +19,16 @@ public class ProductBusiness {
     }
 
     public Product getProductById(String id) throws BaseException {
-        // Get data from database
-        if(id==null) {
+        // Validate the given id
+        if(id==null || id.isEmpty()) {
             throw ProductException.idNotFound();
         }
-        return service.getProductById(id);
+        // Get data from database
+        Product product = service.getProductById(id);
+        if(product == null) {
+            throw ProductException.idNotFound();
+        }
+        return product;
     }
 
     public Product create(Product entity) throws BaseException {
@@ -31,6 +37,10 @@ public class ProductBusiness {
 
     public void deleteById(String id) throws BaseException {
         service.deleteById(id);
+    }
+
+    public List<Product> findAll() {
+        return service.findAll();
     }
 
 }

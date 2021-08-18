@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ErrorAdvisor {
+
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
         ErrorResponse response = new ErrorResponse();
@@ -20,7 +21,14 @@ public class ErrorAdvisor {
         return new ResponseEntity<>(response,HttpStatus.EXPECTATION_FAILED);
     }
 
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleBaseException(Exception e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setError(e.getMessage());
+        response.setStatus(HttpStatus.EXPECTATION_FAILED.value());
+//        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED.body(response));
+        return new ResponseEntity<>(response,HttpStatus.EXPECTATION_FAILED);
+    }
     @Data
     public static class ErrorResponse {
         private LocalDateTime timestamp = LocalDateTime.now();

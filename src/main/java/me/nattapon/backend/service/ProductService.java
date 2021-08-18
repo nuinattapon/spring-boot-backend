@@ -4,8 +4,11 @@ import me.nattapon.backend.entity.Product;
 import me.nattapon.backend.exception.BaseException;
 import me.nattapon.backend.exception.ProductException;
 import me.nattapon.backend.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,4 +71,9 @@ public class ProductService {
     public Product getProductById(String id) {
         return repository.getProductById(id);
     }
+
+    public List<Product> findAll() {
+        return repository.findAllOrderByName();
+    }
+
 }

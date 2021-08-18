@@ -27,6 +27,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 120)
     private String name;
 
+    @Column(nullable = false, length = 60)
+    private String role;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
