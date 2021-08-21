@@ -28,7 +28,7 @@ public class ProductService {
 
     public Product updateName(String id, String name) throws BaseException {
         Optional<Product> opt = repository.findById(id);
-        if(opt.isEmpty()) {
+        if (opt.isEmpty()) {
             throw ProductException.idNotFound();
         }
         Product product = opt.get();
@@ -38,7 +38,7 @@ public class ProductService {
 
     public void deleteById(String id) throws BaseException {
         Optional<Product> opt = repository.findById(id);
-        if(opt.isEmpty()) {
+        if (opt.isEmpty()) {
             throw ProductException.idNotFound();
         }
         repository.deleteById(id);
@@ -46,17 +46,17 @@ public class ProductService {
 
     public Product create(Product entity) throws BaseException {
         // Validate
-        if(entity.getName() == null) {
+        if (entity.getName() == null) {
             // throw error email null
             throw ProductException.createNameNull();
         }
-        if(entity.getPrice() == 0) {
+        if (entity.getPrice() == 0) {
             // throw error password null
             throw ProductException.createPriceNull();
         }
 
         // Verify
-        if(repository.existsByName(entity.getName())) {
+        if (repository.existsByName(entity.getName())) {
             throw ProductException.createNameDuplicated();
         }
         // Save
@@ -65,12 +65,12 @@ public class ProductService {
 
     public Product getProductById(String id) throws BaseException {
         // Validate the given id
-        if(id==null || id.isEmpty()) {
+        if (id == null || id.isEmpty()) {
             throw ProductException.idNotFound();
         }
         // Get data from database
         Product product = repository.getProductById(id);
-        if(product == null) {
+        if (product == null) {
             throw ProductException.idNotFound();
         }
         return product;
