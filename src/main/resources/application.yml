@@ -5,14 +5,14 @@ spring:
       max-file-size: 2MB
       max-request-size: 4MB # This allows us to upload 2 requests simultaneously
   jpa:
-    show-sql: true
+    open-in-view: false
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://rpi4/backend
+    url: jdbc:mysql://192.168.1.6/backend
     username: mysql
     password: Welcome1
 #    url: jdbc:postgresql://localhost:5432/backend
@@ -25,3 +25,29 @@ spring:
 logging:
   level:
     org.springframework: INFO
+
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      discovery:
+        enabled: true
+      exposure:
+        include: "*"
+  endpoint:
+    info:
+      enabled: true
+    shutdown:
+      enabled: true
+  health:
+    key:
+      enabled: [
+          "db"]
+
+info:
+  app:
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"

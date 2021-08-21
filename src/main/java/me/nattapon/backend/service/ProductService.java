@@ -4,8 +4,6 @@ import me.nattapon.backend.entity.Product;
 import me.nattapon.backend.exception.BaseException;
 import me.nattapon.backend.exception.ProductException;
 import me.nattapon.backend.repository.ProductRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,30 +44,36 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    public Product create(String name, Double price) throws BaseException {
+    public Product create(Product entity) throws BaseException {
         // Validate
-        if(name == null) {
+        if(entity.getName() == null) {
             // throw error email null
             throw ProductException.createNameNull();
         }
-        if(price == 0) {
+        if(entity.getPrice() == 0) {
             // throw error password null
             throw ProductException.createPriceNull();
         }
 
         // Verify
-        if(repository.existsByName(name)) {
+        if(repository.existsByName(entity.getName())) {
             throw ProductException.createNameDuplicated();
         }
         // Save
-        Product entity = new Product();
-        entity.setName(name);
-        entity.setPrice(price);
         return repository.save(entity);
     }
 
-    public Product getProductById(String id) {
-        return repository.getProductById(id);
+    public Product getProductById(String id) throws BaseException {
+        // Validate the given id
+        if(id==null || id.isEmpty()) {
+            throw ProductException.idNotFound();
+        }
+        // Get data from database
+        Product product = repository.getProductById(id);
+        if(product == null) {
+            throw ProductException.idNotFound();
+        }
+        return product;
     }
 
     public List<Product> findAll() {

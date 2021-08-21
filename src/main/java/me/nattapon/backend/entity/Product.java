@@ -1,7 +1,6 @@
 package me.nattapon.backend.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +12,9 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@ToString(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "m_product", uniqueConstraints = {@UniqueConstraint(name="name_unique",columnNames = {"name"})})
 public class Product extends BaseEntity {
 
@@ -27,19 +29,11 @@ public class Product extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 && Objects.equals(name, product.name);
+        return Double.compare(product.getPrice(), getPrice()) == 0 && Objects.equals(getName(), product.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                '}';
+        return Objects.hash(getName(), getPrice());
     }
 }

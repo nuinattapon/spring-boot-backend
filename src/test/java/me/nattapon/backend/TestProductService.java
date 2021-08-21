@@ -20,9 +20,9 @@ class TestProductService {
 	@Order(1)
 	@Test
 	void testCreate() throws BaseException {
-		Product entity = service.create(
-				TestCreateData.name, TestCreateData.price
-		);
+		Product testData = new Product(TestCreateData.name, TestCreateData.price);
+
+		Product entity = service.create(testData);
 
 		// check not null
 		Assertions.assertNotNull(entity);

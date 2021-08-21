@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        super.configure(http);
         http.cors().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/user/register","/user/login","/products","/hello","/products/*").anonymous()
+                .and().authorizeRequests().antMatchers("/user/register","/user/login","/products","/hello","/products/*","/actuator/*").anonymous()
                 .anyRequest().authenticated();
 
 
