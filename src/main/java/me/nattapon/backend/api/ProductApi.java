@@ -17,7 +17,6 @@ public class ProductApi {
         this.service = business;
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") String id) throws BaseException {
         Product response = service.getProductById(id);
@@ -27,12 +26,6 @@ public class ProductApi {
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
-
-//    @GetMapping
-//    public ResponseEntity<Product> getProductByIdUsingRequestParam(@RequestParam(name = "id") String id) throws BaseException {
-//        Product response = business.getProductById(id);
-//        return ResponseEntity.ok(response);
-//    }
 
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) throws BaseException {
