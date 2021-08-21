@@ -4,7 +4,6 @@ import me.nattapon.backend.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.NonNullApi;
 
 import java.util.List;
 import java.util.Optional;
