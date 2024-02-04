@@ -1,6 +1,5 @@
 package me.nattapon.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,35 +13,31 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "m_social")
-public class Social extends BaseEntity {
+public class Address extends BaseEntity {
 
     @Column(length = 120)
-    private String facebook;
-
-    @JsonIgnore
-    @Column(length = 120)
-    private String line;
+    private String line1;
 
     @Column(length = 120)
-    private String instagram;
+    private String line2;
 
-    @Column(length = 60)
-    private String tiktok;
+    @Column(length = 120)
+    private String zipcode;
 
-    @OneToOne
-    @JoinColumn(name="m_user_id")
+    @ManyToOne
+    @JoinColumn(name = "m_user_id", nullable = true)
     private User user;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Social social = (Social) o;
-        return Objects.equals(getFacebook(), social.getFacebook()) && Objects.equals(getLine(), social.getLine()) && Objects.equals(getInstagram(), social.getInstagram()) && Objects.equals(getTiktok(), social.getTiktok()) && Objects.equals(getUser(), social.getUser());
+        Address address = (Address) o;
+        return Objects.equals(getLine1(), address.getLine1()) && Objects.equals(getLine2(), address.getLine2()) && Objects.equals(getZipcode(), address.getZipcode()) && Objects.equals(getUser(), address.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFacebook(), getLine(), getInstagram(), getTiktok(), getUser());
+        return Objects.hash(getLine1(), getLine2(), getZipcode(), getUser());
     }
 }

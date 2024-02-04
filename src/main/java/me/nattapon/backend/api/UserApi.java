@@ -23,22 +23,22 @@ public class UserApi {
         this.business = business;
     }
 
-//    @GetMapping("/1")
-//    public TestResponse test() {
-//        TestResponse response = new TestResponse();
-//        response.setName("Nat");
-//        response.setFood("KFC");
-//        return response;
-//    }
-//
-//    @GetMapping("/2")
-//
-//    public TestResponse test2() {
-//        TestResponse response = new TestResponse();
-//        response.setName("Nui");
-//        response.setFood("MK");
-//        return response;
-//    }
+    @GetMapping("/1")
+    public TestResponse test() {
+        TestResponse response = new TestResponse();
+        response.setName("Nat");
+        response.setFood("KFC");
+        return response;
+    }
+
+    @GetMapping("/2")
+
+    public TestResponse test2() {
+        TestResponse response = new TestResponse();
+        response.setName("Nui");
+        response.setFood("MK");
+        return response;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody MLoginRequest request) throws BaseException {

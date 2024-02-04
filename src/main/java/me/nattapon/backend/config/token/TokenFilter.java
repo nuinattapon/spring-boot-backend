@@ -1,7 +1,7 @@
 package me.nattapon.backend.config.token;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.iamnbty.training.backend.service.TokenService;
+import me.nattapon.backend.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenFilter extends GenericFilterBean {
+class TokenFilter extends GenericFilterBean {
 
     private final TokenService tokenService;
 

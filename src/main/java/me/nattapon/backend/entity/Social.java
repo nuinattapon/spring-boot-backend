@@ -2,7 +2,6 @@ package me.nattapon.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,32 +13,35 @@ import java.util.Objects;
 @ToString(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "m_user", uniqueConstraints = {@UniqueConstraint(name="email_unique",columnNames = {"email"})})
-public class User extends BaseEntity {
+@Table(name = "m_social")
+public class Social extends BaseEntity {
 
-    @Column(nullable = false, length = 120)
-    private String email;
+    @Column(length = 120)
+    private String facebook;
 
-    @JsonIgnore
-    @Column(nullable = false, length = 120)
-    private String password;
+    @Column(length = 120)
+    private String line;
 
-    @Column(nullable = false, length = 120)
-    private String name;
+    @Column(length = 120)
+    private String instagram;
 
-    @Column(nullable = false, length = 60)
-    private String role;
+    @Column(length = 60)
+    private String tiktok;
+
+    @OneToOne
+    @JoinColumn(name="m_user_id", nullable = true)
+    private User user;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getRole(), user.getRole());
+        Social social = (Social) o;
+        return Objects.equals(getFacebook(), social.getFacebook()) && Objects.equals(getLine(), social.getLine()) && Objects.equals(getInstagram(), social.getInstagram()) && Objects.equals(getTiktok(), social.getTiktok()) && Objects.equals(getUser(), social.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail(), getPassword(), getName(), getRole());
+        return Objects.hash(getFacebook(), getLine(), getInstagram(), getTiktok(), getUser());
     }
 }

@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     private final UserRepository repository;
+
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
@@ -21,59 +23,64 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean matchPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword,encodedPassword);
+    public Optional<User> findById(String id) {
+        return repository.findById(id);
     }
 
     public Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
-
     }
 
     public User update(User user) {
         return repository.save(user);
     }
 
-    public User updateName(String id, String name) throws BaseException {
+    public User updateName(String id, String name) throws UserException {
         Optional<User> opt = repository.findById(id);
-        if(opt.isEmpty()) {
+        if (opt.isEmpty()) {
             throw UserException.notFound();
         }
+
         User user = opt.get();
         user.setName(name);
+
         return repository.save(user);
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 
+    public boolean matchPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
     public User create(String email, String password, String name) throws BaseException {
-        // Validate
-        if(email==null) {
-            // throw error email null\
+        // validate
+        if (Objects.isNull(email)) {
             throw UserException.createEmailNull();
         }
-        if(password==null) {
-            // throw error password null
+
+        if (Objects.isNull(password)) {
             throw UserException.createPasswordNull();
         }
-        if(name==null) {
-            // throw error name null
+
+        if (Objects.isNull(name)) {
             throw UserException.createNameNull();
         }
 
-        // Verify
-        if(repository.existsByEmail(email)) {
+        // verify
+        if (repository.existsByEmail(email)) {
             throw UserException.createEmailDuplicated();
         }
-        // Save
 
+        // save
         User entity = new User();
+        entity.setEmail(email);
         entity.setPassword(passwordEncoder.encode(password));
         entity.setName(name);
-        entity.setEmail(email);
-        entity.setRole("USER");
+
         return repository.save(entity);
     }
+
 }

@@ -1,0 +1,38 @@
+###
+GET http://localhost:8080/product
+
+###
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "nui@test.me",
+    "password": "Welcome1"
+}
+
+###
+GET http://localhost:8080/product
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcmluY2lwYWwiOiJhM2U4ZTc2Ni1jMGRlLTRkYjMtOTE5Ny1lNjBjMjQ1MzJhMjAiLCJyb2xlIjoiVVNFUiIsImlzcyI6IkJhY2tlbmRTZXJ2aWNlIiwiZXhwIjoxNzA3MDI2MjI1fQ.sxV5aDdkYJ_C-JYi9Ey7gCl8d9IZ4RIR67p8FKdWA_0
+###
+POST http://localhost:3000/api/posts
+
+###
+GET  http://localhost:8080/product/87a8c928-0cfd-4aa7-9cdd-73be9d89331d
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcmluY2lwYWwiOiJhM2U4ZTc2Ni1jMGRlLTRkYjMtOTE5Ny1lNjBjMjQ1MzJhMjAiLCJyb2xlIjoiVVNFUiIsImlzcyI6IkJhY2tlbmRTZXJ2aWNlIiwiZXhwIjoxNzA3MDI2MjI1fQ.sxV5aDdkYJ_C-JYi9Ey7gCl8d9IZ4RIR67p8FKdWA_0
+###
+POST http://oscip021.jp.osc.oracle.com:8080
+Content-Type: application/json
+
+{
+  "dashboardId": 64,
+  "evalMatches": [],
+  "message": "Memory is larger than 20GiB",
+  "orgId": 1,
+  "panelId": 3,
+  "ruleId": 41,
+  "ruleName": "VM Memory Size alert",
+  "ruleUrl": "https://grafana.pca02.jp.osc.oracle.com/d/br6zNXXVk/comp0-bastion-vm-dashboard?tab=alert&viewPanel=3&orgId=1",
+  "state": "ok",
+  "tags": {},
+  "title": "[OK] VM Memory Size alert"
+}

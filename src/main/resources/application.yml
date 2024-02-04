@@ -11,8 +11,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    show-sql: true
   datasource:
-    url: jdbc:mysql://192.168.1.6/backend
+    url: jdbc:mysql://192.168.1.7/backend
     username: mysql
     password: Welcome1
 #    url: jdbc:postgresql://localhost:5432/backend
@@ -34,7 +35,7 @@ management:
       discovery:
         enabled: true
       exposure:
-        include: "*"
+        include: "health,metrics"
   endpoint:
     info:
       enabled: true
@@ -51,3 +52,8 @@ info:
     java:
       source: "@java.version@"
       target: "@java.version@"
+---
+app:
+  token:
+    secret: m#MySecretGGWP2021
+    issuer: BackendService

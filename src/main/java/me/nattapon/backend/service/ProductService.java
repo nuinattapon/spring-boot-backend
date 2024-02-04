@@ -4,6 +4,7 @@ import me.nattapon.backend.entity.Product;
 import me.nattapon.backend.exception.BaseException;
 import me.nattapon.backend.exception.ProductException;
 import me.nattapon.backend.repository.ProductRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,11 +64,8 @@ public class ProductService {
         return repository.save(entity);
     }
 
-    public Product getProductById(String id) throws BaseException {
-        // Validate the given id
-        if (id == null || id.isEmpty()) {
-            throw ProductException.idNotFound();
-        }
+    public Product getProductById(@NonNull String id) throws BaseException {
+
         // Get data from database
         Product product = repository.getProductById(id);
         if (product == null) {

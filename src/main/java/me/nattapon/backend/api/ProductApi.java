@@ -3,14 +3,17 @@ package me.nattapon.backend.api;
 import me.nattapon.backend.entity.Product;
 import me.nattapon.backend.exception.BaseException;
 import me.nattapon.backend.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/product")
 public class ProductApi {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ProductService service;
     public ProductApi(ProductService business) {

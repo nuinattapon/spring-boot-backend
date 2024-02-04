@@ -9,7 +9,9 @@ import me.nattapon.backend.model.MLoginRequest;
 import me.nattapon.backend.model.MLoginResponse;
 import me.nattapon.backend.model.MRegisterRequest;
 import me.nattapon.backend.model.MRegisterResponse;
+import me.nattapon.backend.service.TokenService;
 import me.nattapon.backend.service.UserService;
+import me.nattapon.backend.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,68 +25,81 @@ import java.util.Optional;
 public class UserBusiness {
 
     private final UserService userService;
+
+    private final TokenService tokenService;
+
     private final UserMapper userMapper;
 
-
-    public UserBusiness(UserService userService, UserMapper userMapper) {
+    public UserBusiness(UserService userService, TokenService tokenService, UserMapper userMapper) {
         this.userService = userService;
+        this.tokenService = tokenService;
         this.userMapper = userMapper;
+    }
+
+    public String login(MLoginRequest request) throws BaseException {
+        // validate request
+
+        // verify database
+        Optional<User> opt = userService.findByEmail(request.getEmail());
+        if (opt.isEmpty()) {
+            throw UserException.loginFailEmailNotFound();
+        }
+
+        User user = opt.get();
+        if (!userService.matchPassword(request.getPassword(), user.getPassword())) {
+            throw UserException.loginFailPasswordIncorrect();
+        }
+
+        return tokenService.tokenize(user);
+    }
+
+    public String refreshToken() throws BaseException {
+        Optional<String> opt = SecurityUtil.getCurrentUserId();
+        if (opt.isEmpty()) {
+            throw UserException.unauthorized();
+        }
+
+        String userId = opt.get();
+
+        Optional<User> optUser = userService.findById(userId);
+        if (optUser.isEmpty()) {
+            throw UserException.notFound();
+        }
+
+        User user = optUser.get();
+        return tokenService.tokenize(user);
     }
 
     public MRegisterResponse register(MRegisterRequest request) throws BaseException {
         User user = userService.create(request.getEmail(), request.getPassword(), request.getName());
 
-        // mapper
         return userMapper.toRegisterResponse(user);
     }
 
-
-    public String login(MLoginRequest request) throws BaseException {
-        // Validate request
-        // Verify database
-        Optional<User> opt = userService.findByEmail(request.getEmail());
-        if(opt.isEmpty()) {
-            throw UserException.loginFailEmailNotFound();
-        }
-
-        User user = opt.get();
-        if( !userService.matchPassword(request.getPassword(),user.getPassword())) {
-            throw UserException.loginFailPasswordIncorrect();
-        }
-
-        // TODO: Generate JWT
-        String token = "JWT TO DO";
-
-        return token;
-    }
-
     public String uploadProfilePicture(MultipartFile file) throws BaseException {
-
-        // Validate file
-        if (file == null ) {
+        // validate file
+        if (file == null) {
             // throw error
             throw FileException.fileNull();
         }
 
-        // Validate size
-        if (file.getSize() > 1048576 *2) {
+        // validate size
+        if (file.getSize() > 1048576 * 2) {
             // throw error
             throw FileException.fileMaxSize();
         }
 
-        // Validate type
         String contentType = file.getContentType();
-        if (Objects.isNull(contentType)) {
+        if (contentType == null) {
             // throw error
-            throw FileException.unsupportedFileType();
+            throw FileException.unsupported();
         }
 
-        List<String> supportedType = Arrays.asList("image/jpeg","image/png");
-        if(!supportedType.contains(contentType)) {
-            //throw error (unsupported)
-            throw FileException.unsupportedFileType();
+        List<String> supportedTypes = Arrays.asList("image/jpeg", "image/png");
+        if (!supportedTypes.contains(contentType)) {
+            // throw error (unsupport)
+            throw FileException.unsupported();
         }
-
 
         // TODO: upload file File Storage (AWS S3, etc...)
         try {
@@ -95,4 +110,5 @@ public class UserBusiness {
 
         return "";
     }
+
 }
